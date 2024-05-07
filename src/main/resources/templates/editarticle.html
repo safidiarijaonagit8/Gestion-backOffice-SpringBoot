@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Administrateur</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+        </li>
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gestion Articles
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/formajoutarticle}">Ajout</a></li>
+            <li><a class="dropdown-item" th:href="@{/articles}">Voir liste</a></li>
+            
+            
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gestion Evenements
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/formajoutarticle}">Ajout</a></li>
+            <li><a class="dropdown-item" th:href="@{/articles}">Voir liste</a></li>
+            </ul>
+        </li>
+       
+      </ul>
+      <a class="nav-link" aria-current="page" th:href="@{/logout}"><button class="btn btn-outline-success">Logout</button></a>
+    </div>
+  </div>
+</nav>
+<br /><br /><br />
+<div class="container">
+  <div class="row col-md-8 offset-md-2">
+    <div class="card">
+     
+     
+      <div class="card-body">
+          <form
+            method="post"
+            role="form"
+            th:action="@{/editarticlefunc}"
+            th:object="${article}"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group mb-3">
+            <input type="hidden" name="articleId"  th:value="*{id}"  th:field="*{id}"/>
+              <label class="form-label">Titre</label>
+              <input
+                      class="form-control"
+                      id="titre"
+                      name="titre"
+                      placeholder="Entrer le titre"
+                      th:field="*{titre}"
+                      th:value="*{titre}"
+                      type="text"
+              />
+              <p th:errors = "*{titre}" class="text-danger"
+              th:if="${#fields.hasErrors('titre')}"></p>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">Soustitre</label>
+              <input
+                      class="form-control"
+                      id="soustitre"
+                      name="soustitre"
+                      placeholder="Entrer le soustitre"
+                      th:field="*{soustitre}"
+                       th:value="*{soustitre}"
+                      type="text"
+              />
+              <p th:errors = "*{soustitre}" class="text-danger"
+                 th:if="${#fields.hasErrors('soustitre')}"></p>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">Contenus</label>
+              <textarea
+                      class="form-control"
+                      id="contenus"
+                      name="contenus"
+                      placeholder="Entrer le contenu"
+                      th:field="*{contenus}"
+                        th:value="*{contenus}"
+                      
+              ></textarea>
+              <p th:errors = "*{contenus}" class="text-danger"
+                 th:if="${#fields.hasErrors('contenus')}"></p>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">L'image actuelle sera conservée si vous ne choisissez pas</label>
+              <input
+                      class="form-control"
+                      id="sary"
+                     name="image"
+                      placeholder="Entrer votre image"
+                      type="file"
+                     
+              />
+             
+            </div>
+            
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">Modifier</button>
+             
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+</body>
+</html>
