@@ -5,6 +5,8 @@ import java.sql.Date;
 import articles.entity.BaseModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -27,18 +29,26 @@ public class Articles extends BaseModel{
 	  
 	  @Column(nullable=false)
 	  private Date datepublication;
+
+	  
+
+	   @ManyToOne
+    @JoinColumn(name = "categorie_id", nullable = false)
+    private Categories categorie;
 	  
 	  public Articles() {
 		  
 	  }
+	  /*test diff in git*/
 
-	public Articles(String titre, String soustitre, String contenus, String sary, Date datepublication) {
+	public Articles(String titre, String soustitre, String contenus, String sary, Date datepublication,Categories categorie) {
 		super();
 		this.titre = titre;
 		this.soustitre = soustitre;
 		this.contenus = contenus;
 		this.sary = sary;
 		this.datepublication = datepublication;
+		this.categorie = categorie;
 	}
 
 	public String getTitre() {
@@ -81,6 +91,12 @@ public class Articles extends BaseModel{
 		this.datepublication = datepublication;
 	}
 	  
-	
+	public Categories getCategorie() {
+		return this.categorie;
+	}
+
+	public void setCategorie(Categories categorie) {
+		this.categorie = categorie;
+	}
 
 }

@@ -81,7 +81,9 @@
      
      
       <div class="card-body">
-          <h2>[[${article.titre}]]
+        <p><strong>Catégorie : [[${article.categorie.nomCategorie}]]</strong></p>
+      </br>
+          <h2>[[${article.titre}]]    
           </h2>
           </br>
           <img id="img" th:src="@{${'/uploads/'  +article.sary}}"/>
@@ -91,9 +93,9 @@
           <h4>[[${article.soustitre}]]
           </h4>
           </br>
-          <p>
-          [[${article.contenus}]]
-          </p>
+          <p th:utext="${article.contenus}">
+            <!-- This content will be replaced by the unescaped HTML from article.contenus -->
+        </p>
           
     
       </div>

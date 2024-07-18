@@ -23,9 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import articles.dto.UserDto;
 import articles.entity.Articles;
+import articles.entity.Categories;
 import articles.entity.User;
 import articles.repository.ArticlesRepository;
 import articles.service.ArticlesService;
+import articles.service.CategoriesService;
 import articles.service.EvenementsService;
 import jakarta.validation.Valid;
 
@@ -47,16 +49,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
-public class AdminController {
+public class AdminArticlesController {
 	
 	 @Autowired
 	    private ArticlesService articleService;
+
+
+		@Autowired
+	    private CategoriesService categorieService;
 	 
-	 @Autowired
-	    private EvenementsService evenementService;
+	
 	 
 	 @Autowired
 	  private ArticlesRepository articlesRepository;
+
+	  
 	 
 	
 	 
@@ -76,8 +83,10 @@ public class AdminController {
 		 Articles article = new Articles();
 		 model.addAttribute("article", article);
 		
-	        
-	        return "formajoutarticle";
+	        List<Categories> listCategories = categorieService.getListCategories();
+			model.addAttribute("listCategories", listCategories);
+			
+	        return "articles/formajoutarticle";
 	    }
 	 
 	 public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads";
@@ -110,7 +119,7 @@ public class AdminController {
 	 @GetMapping("/articles")
 	  public String getAll(Model model, @RequestParam(required = false) String keyword,
 	      @RequestParam(defaultValue = "1") int page,
-	      @RequestParam(defaultValue = "2") int size,
+	      @RequestParam(defaultValue = "10") int size,
 	      @RequestParam(defaultValue = "id,asc") String[] sort) {
 	    try {
 	      List<Articles> articles = new ArrayList<Articles>();
@@ -144,21 +153,23 @@ public class AdminController {
 	      model.addAttribute("message", e.getMessage());
 	    }
 
-	    return "articles";
+	    return "articles/articles";
 	  }
 	 
 	 @GetMapping("/detailarticle/{id}")
 	 public String detailArticle(@PathVariable("id") Integer articleId,Model model)
 	    {
 		 model.addAttribute("article", articlesRepository.findById(articleId).get());
-		 return "/detailarticle";
+		 return "articles/detailarticle";
 	    }
 	 
 	 @GetMapping("/editarticle/{id}")
 	 public String editArticle(@PathVariable("id") Integer articleId,Model model)
 	    {
 		 model.addAttribute("article", articlesRepository.findById(articleId).get());
-		 return "/editarticle";
+		 List<Categories> listCategories = categorieService.getListCategories();
+		 model.addAttribute("listCategories", listCategories);
+		 return "articles/editarticle";
 	    }
 	 
 	 
