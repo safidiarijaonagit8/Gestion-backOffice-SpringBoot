@@ -13,11 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurity{
+public class SpringSecurity implements WebMvcConfigurer{
 	
 	 @Autowired
 	    private UserDetailsService userDetailsService;
@@ -32,10 +35,11 @@ public class SpringSecurity{
 	        http.csrf().disable()
 	                .authorizeHttpRequests((authorize) ->
 	                        authorize.requestMatchers("/register/**").permitAll()
-	                        .requestMatchers("/api/**").permitAll()
+	                        .requestMatchers("/articles/api/**").permitAll()
 	                                .requestMatchers("/index").permitAll()
 	                                .requestMatchers("/users").hasRole("ADMIN")
 	                                .requestMatchers("/accueil").hasRole("ADMIN")/*ou ROLE_ADMIN??*/
+									.requestMatchers("/images/**").permitAll()
 	                                .requestMatchers("/formajoutarticle").hasRole("ADMIN")
 	                                .requestMatchers("/savearticle").hasRole("ADMIN")
 	                                .requestMatchers("/articles").hasRole("ADMIN")
@@ -43,10 +47,10 @@ public class SpringSecurity{
 	                                .requestMatchers("/editarticle/**").hasRole("ADMIN")
 	                                .requestMatchers("/editarticlefunc").hasRole("ADMIN")
 	                                .requestMatchers("/deletearticle/**").hasRole("ADMIN")
-	                ).formLogin(
+									).formLogin(
 	                        form -> form
 	                                .loginPage("/login")
-	                                .loginProcessingUrl("/accueil")
+	                                .loginProcessingUrl("/login")
 	                                .defaultSuccessUrl("/accueil")
 	                                .permitAll()
 	                ).logout(
@@ -69,7 +73,27 @@ public class SpringSecurity{
 	    public WebSecurityCustomizer webSecurityCustomizer() {
 	        return (web) -> web.ignoring().requestMatchers("/uploads/**");
 	    }
-	    
+	    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**")
+		.addResourceLocations("file:C:\\SPRING Boot\\gestionarticles\\src\\main\\resources\\static\\uploads\\");
+    }
+
+	@Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
+    }
+
+	
 	    
 	  
 	

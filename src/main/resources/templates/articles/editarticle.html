@@ -49,21 +49,18 @@
 <div class="container">
   <div class="row col-md-8 offset-md-2">
     <div class="card">
-     <div th:if="${param.success}">
-          <div class="alert alert-info">
-				Ajout article réussi !!!
-          </div>
-      </div>
+     
      
       <div class="card-body">
           <form
             method="post"
             role="form"
-            th:action="@{/savearticle}"
+            th:action="@{/editarticlefunc}"
             th:object="${article}"
             enctype="multipart/form-data"
           >
             <div class="form-group mb-3">
+            <input type="hidden" name="articleId"  th:value="*{id}"  th:field="*{id}"/>
               <label class="form-label">Titre</label>
               <input
                       class="form-control"
@@ -71,6 +68,7 @@
                       name="titre"
                       placeholder="Entrer le titre"
                       th:field="*{titre}"
+                      th:value="*{titre}"
                       type="text"
               />
               <p th:errors = "*{titre}" class="text-danger"
@@ -85,6 +83,7 @@
                       name="soustitre"
                       placeholder="Entrer le soustitre"
                       th:field="*{soustitre}"
+                       th:value="*{soustitre}"
                       type="text"
               />
               <p th:errors = "*{soustitre}" class="text-danger"
@@ -99,6 +98,7 @@
                       name="contenus"
                       placeholder="Entrer le contenu"
                       th:field="*{contenus}"
+                        th:value="*{contenus}"
                       
               ></textarea>
               <p th:errors = "*{contenus}" class="text-danger"
@@ -106,19 +106,31 @@
             </div>
 
             <div class="form-group mb-3">
-              <label class="form-label">Upload Image Article</label>
+              <label class="form-label">L'image actuelle sera conservée si vous ne choisissez pas</label>
               <input
                       class="form-control"
                       id="sary"
                      name="image"
                       placeholder="Entrer votre image"
                       type="file"
+                     
               />
              
             </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label">Catégorie</label>
+              <select class="form-control" id="category" th:field="*{categorie}">
+                <option th:each="category : ${listCategories}" 
+                th:value="${category.id}" 
+                th:text="${category.nomCategorie}"
+                th:selected="${category.id} == *{categorie.id}">
+               </option>
+              </select>
+          </div>
             
             <div class="form-group">
-              <button class="btn btn-primary" type="submit">Ajouter</button>
+              <button class="btn btn-primary" type="submit">Modifier</button>
              
             </div>
           </form>

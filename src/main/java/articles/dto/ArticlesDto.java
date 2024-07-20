@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import org.springframework.http.ResponseEntity;
 
+import articles.entity.Categories;
 import jakarta.validation.constraints.NotEmpty;
 
 public class ArticlesDto {
@@ -22,12 +23,14 @@ public class ArticlesDto {
     
     private Date datepublication;
 
+	private String categorie;
+
 	public ArticlesDto() {
 		super();
 	}
 
 	public ArticlesDto(Integer id, String titre, String soustitre, String contenus, String sary,
-			Date datepublication) {
+			Date datepublication, String categorie) {
 		super();
 		this.id = id;
 		this.titre = titre;
@@ -35,6 +38,7 @@ public class ArticlesDto {
 		this.contenus = contenus;
 		this.sary = sary;
 		this.datepublication = datepublication;
+		this.categorie = categorie;
 	}
 
 	public Integer getId() {
@@ -85,7 +89,14 @@ public class ArticlesDto {
 		this.datepublication = datepublication;
 	}
     
-    
+    public String getCategorie()
+	{
+		return this.categorie;
+	}
+	public void setCategorie(String categories)
+	{
+		this.categorie = categories;
+	}
 	
 
 }
