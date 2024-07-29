@@ -20,14 +20,19 @@ public class Categories extends BaseModel{
       @OneToMany(mappedBy = "categorie")
     private List<Articles> articles;
 
+
+    @OneToMany(mappedBy = "categorie")
+    private List<Evenements> evenements;
+
       public Categories() {
 		  
 	  }
 
-      public Categories(String nomCategorie,List<Articles> articles) {
+      public Categories(String nomCategorie,List<Articles> articles,List<Evenements> evenements) {
 		super();
 		this.nomCategorie = nomCategorie;
         this.articles = articles;
+        this.evenements = evenements;
 		}
 
         public String getNomCategorie() {
@@ -46,6 +51,15 @@ public class Categories extends BaseModel{
         public void setArticles(List<Articles> articles)
         {
             this.articles = articles;
+        }
+        public List<Evenements> getEvenements()
+        {
+            return this.evenements;
+        }
+
+        public void setEvenements(List<Evenements> evenements)
+        {
+            this.evenements = evenements;
         }
 
 

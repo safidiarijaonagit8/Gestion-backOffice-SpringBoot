@@ -99,7 +99,7 @@ public class AdminArticlesController {
 	        
 		 	if(result.hasErrors()){
 		 		 model.addAttribute("article", monarticle);
-	            return "/formajoutarticle";
+	            return "articles/formajoutarticle";
 	        }
 		 	 StringBuilder fileNames = new StringBuilder();
 		        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());

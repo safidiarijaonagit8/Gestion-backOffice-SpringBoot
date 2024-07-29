@@ -47,6 +47,9 @@ public class SpringSecurity implements WebMvcConfigurer{
 	                                .requestMatchers("/editarticle/**").hasRole("ADMIN")
 	                                .requestMatchers("/editarticlefunc").hasRole("ADMIN")
 	                                .requestMatchers("/deletearticle/**").hasRole("ADMIN")
+									.requestMatchers("/formajoutevenement").hasRole("ADMIN")
+									.requestMatchers("/evenements").hasRole("ADMIN")
+									.requestMatchers("/saveevenement").hasRole("ADMIN")
 									).formLogin(
 	                        form -> form
 	                                .loginPage("/login")
@@ -79,7 +82,7 @@ public class SpringSecurity implements WebMvcConfigurer{
 		.addResourceLocations("file:C:\\SPRING Boot\\gestionarticles\\src\\main\\resources\\static\\uploads\\");
     }
 
-	@Bean
+	/*@Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
@@ -91,7 +94,7 @@ public class SpringSecurity implements WebMvcConfigurer{
                         .allowCredentials(true);
             }
         };
-    }
+    }*/
 
 	
 	    
