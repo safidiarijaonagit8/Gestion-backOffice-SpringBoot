@@ -84,11 +84,11 @@
 </br>
 </br>
 
- <h3 align="center">Liste Articles</h3>
+ <h3 align="center">Liste Events</h3>
  </br>
 </br>
 <div>
-  <form th:action="@{/articles}" id="searchForm">
+  <form th:action="@{/evenements}" id="searchForm">
     <div class="row d-flex">
       <div>
         <div id="parent">
@@ -96,7 +96,7 @@
           <input id="keyword" type="search" name="keyword" th:value="${keyword}" required class="form-control"
             placeholder="Entrer un titre ou un bout de titre">
           <button type="submit"  class="btn btn-secondary custom">Rechercher</button>
-           <a th:href="@{/articles}" class="btn btn-success custom">Réinitialiser</a>
+           <a th:href="@{/evenements}" class="btn btn-success custom">Réinitialiser</a>
         </div>
        
       </div>
@@ -108,50 +108,50 @@
 </br>
 <div th:if="${param.success}">
           <div class="alert alert-info">
-				Modification article réussie !!!
+				Modification Evenement réussie !!!
           </div>
       </div>
       <div th:if="${param.deletesuccess}">
           <div class="alert alert-danger">
-				Suppression article réussie !!!
+				Suppression Evenement réussie !!!
           </div>
       </div>
    </br>   
- <div th:if="${articles.size() > 0}">
+ <div th:if="${events.size() > 0}">
   <table class="table table-hover table-responsive-xl" id="myTable2">
     <thead class="thead-light">
       <tr>
-        <th th:replace="~{./fragments_articles/sorting :: sorting('id', 'Id')}"></th>
+        <th th:replace="~{./fragments_evenements/sorting :: sorting('id', 'Id')}"></th>
 
          <th>Titre</th>
          <th>Soustitre</th>
         <th>Contenus</th>
         <th>Sary</th>
-        <th th:replace="~{./fragments_articles/sorting :: sorting('datepublication', 'Date publication')}"></th>
+        <th th:replace="~{./fragments_evenements/sorting :: sorting('dateevenement', 'Date évènement')}"></th>
        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr th:each="article : ${articles}">
-        <th scope="row">[[${article.id}]]</th>
-        <td>[[${article.titre}]]</td>
-        <td>[[${article.soustitre}]]</td>
-        <td>[[${article.contenus}]]</td>
+      <tr th:each="event : ${events}">
+        <th scope="row">[[${event.id}]]</th>
+        <td>[[${event.titre}]]</td>
+        <td>[[${event.soustitre}]]</td>
+        <td>[[${event.contenus}]]</td>
         <td>
-         [[${article.sary}]]
+         [[${event.sary}]]
         </td>
-         <td>
-           <div  th:text="${#dates.format(article.datepublication, 'dd-MMM-yyyy')}" class="d-flex px-2 py-1">
-                                           
-                                            
-                                            </div>
+        <td>
+           <div  th:text="${#temporals.format(event.dateevenement, 'dd-MMM-yyyy HH:mm:ss')}" class="d-flex px-2 py-1">
+            </div>
+           
          
         </td>
+      
         
         <td>
         
                   
-          <a th:href="@{'/detailarticle/' + ${article.id}}" title="Voir plus de détails"
+          <a th:href="@{'/detailevenement/' + ${event.id}}" title="Voir plus de détails"
             class="fa fa-info-circle"></a>
            
          
@@ -161,33 +161,33 @@
   </table>
 </div>
 
-<div class="" th:unless="${articles.size() > 0}">
-  <span>No articles found!</span>
+<div class="" th:unless="${events.size() > 0}">
+  <span>No events found!</span>
 </div>
 
 <nav aria-label="Pagination" th:if="${totalPages > 0}">
   <ul class="pagination justify-content-center">
     <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-      <a th:replace="~{./fragments_articles/paging :: paging(1, '<<', 'First Page')}"></a>
+      <a th:replace="~{./fragments_evenements/paging :: paging(1, '<<', 'First Page')}"></a>
     </li>
     <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
-      <a th:replace="~{./fragments_articles/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')}"></a>
+      <a th:replace="~{./fragments_evenements/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')}"></a>
     </li>
     <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
       <a class="page-link" href="#">...</a>
     </li>
     <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
       th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-      <a th:replace="~{./fragments_articles/paging :: paging(${page}, ${page}, 'Page ' + ${page})}"></a>
+      <a th:replace="~{./fragments_evenements/paging :: paging(${page}, ${page}, 'Page ' + ${page})}"></a>
     </li>
     <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
       <a class="page-link" href="#">...</a>
     </li>
     <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
-      <a th:replace="~{./fragments_articles/paging :: paging(${currentPage + 1}, 'Next', 'Next Page')}"></a>
+      <a th:replace="~{./fragments_evenements/paging :: paging(${currentPage + 1}, 'Next', 'Next Page')}"></a>
     </li>
     <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-      <a th:replace="~{./fragments_articles/paging :: paging(${totalPages}, '>>', 'Last Page')}"></a>
+      <a th:replace="~{./fragments_evenements/paging :: paging(${totalPages}, '>>', 'Last Page')}"></a>
     </li>
   </ul>
 </nav>
@@ -200,7 +200,7 @@
     $("#btnClear").on("click", function (e) {
       e.preventDefault();
       $("#keyword").text("");
-      window.location = "[[@{/articles}]]";
+      window.location = "[[@{/evenements}]]";
     });
   });
 
