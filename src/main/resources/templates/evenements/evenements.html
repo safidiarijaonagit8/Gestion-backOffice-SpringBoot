@@ -111,6 +111,13 @@
 				Modification Evenement réussie !!!
           </div>
       </div>
+      <div th:if="${param.editdateetheureeventsuccess}">
+          <div class="alert alert-info">
+				Modification Date et Heure Evenement réussie !!!
+          </div>
+      </div>
+      
+
       <div th:if="${param.deletesuccess}">
           <div class="alert alert-danger">
 				Suppression Evenement réussie !!!
@@ -141,8 +148,9 @@
          [[${event.sary}]]
         </td>
         <td>
-           <div  th:text="${#temporals.format(event.dateevenement, 'dd-MMM-yyyy HH:mm:ss')}" class="d-flex px-2 py-1">
-            </div>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#editDateModal" th:attr="data-event-id=${event.id}">
+    <div th:text="${#temporals.format(event.dateevenement, 'dd-MMM-yyyy HH:mm:ss')}" class="d-flex px-2 py-1"></div>
+  </a>
            
          
         </td>
@@ -191,6 +199,32 @@
     </li>
   </ul>
 </nav>
+<div class="modal fade" id="editDateModal" tabindex="-1" aria-labelledby="editDateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editDateModalLabel">Modifier Date et Heure Event</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editDateForm" action="/updateDateEtHeureEvent" method="get">
+          <!-- Hidden field to store event id -->
+          <input type="hidden" id="eventId" name="eventId" value="">
+
+          <div class="mb-3">
+            <label for="dateevenement" class="form-label">Date et Heure de l'évènement</label>
+            <input type="datetime-local" class="form-control" id="dateevenement" name="dateevenement"
+                  >
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary" form="editDateForm">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script type="text/javascript">
@@ -207,6 +241,22 @@
   function changePageSize() {
     $("#searchForm").submit();
   }
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var editDateModal = document.getElementById('editDateModal');
+    
+    editDateModal.addEventListener('show.bs.modal', function (event) {
+      // Get the button that triggered the modal
+      var button = event.relatedTarget;
+      // Extract the event ID from the data attribute
+      var eventId = button.getAttribute('data-event-id');
+      
+      // Find the hidden input field in the modal and set its value
+      var hiddenInput = document.getElementById('eventId');
+      hiddenInput.value = eventId;
+    });
+  });
 </script>
 
   

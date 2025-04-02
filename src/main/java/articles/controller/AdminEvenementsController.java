@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,8 +39,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-
-
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -138,11 +138,85 @@ public class AdminEvenementsController {
 
 	    return "evenements/evenements";
 	  }
+	  
+	  @GetMapping("/detailevenement/{id}")
+	  public String detailEvenement(@PathVariable("id") Integer eventId,Model model)
+		 {
+		  model.addAttribute("event", eventsRepository.findById(eventId).get());
+		  return "evenements/detailevenement";
+		 }
 
+		 @GetMapping("/editevent/{id}")
+		 public String editEvenement(@PathVariable("id") Integer eventId,Model model)
+			{
+			 model.addAttribute("event", eventsRepository.findById(eventId).get());
+			 List<Categories> listCategories = categorieService.getListCategories();
+			 model.addAttribute("listCategories", listCategories);
+			 return "evenements/editevenement";
+			}
 
-	
+			@PostMapping("/editeventfunc")
+			public String editEventFunc(@Valid @ModelAttribute("event") Evenements monevent,
+					@RequestParam("image") MultipartFile file,
+									   BindingResult result,
+									   Model model) throws IOException{
+				
+				 if(result.hasErrors()){
+					  model.addAttribute("event",monevent);
+					return "evenements/editevenement";
+				}
+				 
+				 String saryedit = "";
+				 
+				 if(!file.isEmpty())
+				 {
+				  StringBuilder fileNames = new StringBuilder();
+					Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+					fileNames.append(file.getOriginalFilename());
+					Files.write(fileNameAndPath, file.getBytes());
+					saryedit = file.getOriginalFilename();
+					monevent.setSary(saryedit);
+				   
+				 }
+				 else
+				 {
+					monevent.setSary(saryedit);
+				 }
+				 
+					//monarticle.setDatepublication(Date.valueOf(LocalDate.now()));
+				 
+					evenementsService.updateEvent( monevent.getId(), monevent);
+					return "redirect:/evenements?success";
+				 
+			 
+			
+				
+			}
+			@GetMapping("/deleteevent/{id}")
+			public String deleteEvenement(@PathVariable("id") Integer eventId,Model model)
+			   {
+				eventsRepository.deleteById(eventId);
+			   
+				return "redirect:/evenements?deletesuccess";
+			   }
 
+			    @GetMapping("/updateDateEtHeureEvent")
+    public String updateDateEtHeureEvent(@RequestParam("eventId") String eventId,
+                                          @RequestParam("dateevenement") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateevenement) {
+        // Fetch the event by ID
+        Evenements event = eventsRepository.findById(Integer.parseInt(eventId)).get();
         
+        if (event != null) {
+            // Update the event's date
+            event.setDateevenement(dateevenement);
+			evenementsService.saveEvenement(event);
+        }
+        
+        // Redirect or return a view
+
+        return "redirect:/evenements?editdateetheureeventsuccess";  
+    } 
+	
 
 
 

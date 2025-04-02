@@ -181,7 +181,7 @@ public class AdminArticlesController {
 	        
 		 	if(result.hasErrors()){
 		 		 model.addAttribute("article",articlesRepository.findById(monarticle.getId()).get() );
-	            return "/editarticle";
+	            return "articles/editarticle";
 	        }
 		 	
 		 	String saryedit = "";
