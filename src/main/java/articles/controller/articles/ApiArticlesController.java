@@ -1,4 +1,4 @@
-package articles.controller;
+package articles.controller.articles;
 
 import java.util.ArrayList;
 import java.util.List;
