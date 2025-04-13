@@ -1,4 +1,4 @@
-package articles.controller;
+package articles.controller.events;
 import java.util.List;
 import java.util.stream.Collectors;
 
