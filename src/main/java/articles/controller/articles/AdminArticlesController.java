@@ -1,4 +1,4 @@
-package articles.controller;
+package articles.controller.articles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,7 +181,7 @@ public class AdminArticlesController {
 	        
 		 	if(result.hasErrors()){
 		 		 model.addAttribute("article",articlesRepository.findById(monarticle.getId()).get() );
-	            return "/editarticle";
+	            return "articles/editarticle";
 	        }
 		 	
 		 	String saryedit = "";

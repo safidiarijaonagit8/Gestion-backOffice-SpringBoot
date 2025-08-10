@@ -50,6 +50,12 @@ public class SpringSecurity implements WebMvcConfigurer{
 									.requestMatchers("/formajoutevenement").hasRole("ADMIN")
 									.requestMatchers("/evenements").hasRole("ADMIN")
 									.requestMatchers("/saveevenement").hasRole("ADMIN")
+									.requestMatchers("/detailevenement/**").hasRole("ADMIN")
+									.requestMatchers("/editevent/**").hasRole("ADMIN")
+									.requestMatchers("/editeventfunc").hasRole("ADMIN")
+									.requestMatchers("/deleteevent/**").hasRole("ADMIN")
+									.requestMatchers("/evenements/api/**").permitAll()
+									.requestMatchers("/updateDateEtHeureEvent").hasRole("ADMIN")
 									).formLogin(
 	                        form -> form
 	                                .loginPage("/login")
